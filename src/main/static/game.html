@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+    <style>
+        body {
+        background-image: url({{ image }});
+        background-size: cover;
+        background-repeat: no-repeat;
+        }
+
+        button {
+        display: block;
+        outline: none;
+        border: 0;
+        font-size: 200%;
+        opacity: 0.8;
+        border-radius: 20px;
+        width: 75%;
+        margin-left: 0;
+        margin-bottom: 15%;
+        }
+
+        .beginGame {
+        border-radius: 50px;
+        border: 0;
+        outline: none;
+        }
+
+        .changeArtist {
+        border-radius: 50px;
+        border: 0;
+        outline: none;
+        }
+
+        .choose_track {
+        display: block;
+
+        border: 0;
+        margin-top: 10%;
+        }
+
+        .right_window {
+
+        border: 0;
+        margin-top: 10%;
+
+        }
+
+        .infoPanel {
+        background-color: buttonface;
+        border-radius: 50px;
+        opacity: 0.8;
+        }
+
+        .infoText {
+        font-size: 200%;
+        }
+    </style>
+
+    function startPlay()
+    {
+    <script language="JavaScript">
+        function startPlay()
+            {
+                var oAudio = document.getElementById('player');
+                oAudio.play()
+            }
+    </script>
+</head>
+<body onload="resizeGame()">
+<audio src="asd" id="player"></audio>
+<div class="container">
+    <div class="main">
+        <form method="post" action="result/">
+            <div class="choose_track col-md-5 col-md-offset-1 col-lg-5 col-lg-offset-1">
+                <button class="songSelector" value="1" name="button" id="1">
+                    1
+                </button>
+                <button class="songSelector" value="2" name="button" id="2">
+                    2
+                </button>
+                <button class="songSelector" value="3" name="button" id="3">
+                    3
+                </button>
+                <button class="songSelector" value="4" name="button" id="4">
+                    4
+                </button>
+                <button class="songSelector" value="5" name="button" id="5">
+                    5
+                </button>
+
+            </div>
+        </form>
+        <div class="right_window col-md-4 col-md-offset-2 col-lg-4 col-lg-offset-2">
+            <form name="test" method="get" action="/guessMelody/game_begin">
+                <button class="changeArtist">Go back to choosing the artist</button>
+            </form>
+            <button onclick="startPlay()" class="beginGame">Next song</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>
