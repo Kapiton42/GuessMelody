@@ -32,8 +32,32 @@ public class UserSession {
     return (String) getHttpSession().getAttribute("AccessToken");
   }
 
-  public void setAccessToken(String state) {
-    getHttpSession().setAttribute("AccessToken", state);
+  public void setAccessToken(String accessToken) {
+    getHttpSession().setAttribute("AccessToken", accessToken);
+  }
+
+  public Integer getArtistId() {
+    return (Integer) getHttpSession().getAttribute("ArtistId");
+  }
+
+  public void setArtistId(Integer artist) {
+    getHttpSession().setAttribute("ArtistId", artist);
+  }
+
+  public String getArtist() {
+    return (String) getHttpSession().getAttribute("Artist");
+  }
+
+  public void setArtist(String artist) {
+    getHttpSession().setAttribute("Artist", artist);
+  }
+
+  public String getRightSong() {
+    return (String) getHttpSession().getAttribute("RightSong");
+  }
+
+  public void setRightSong(String rightSong) {
+    getHttpSession().setAttribute("RightSong", rightSong);
   }
 
   private HttpSession getHttpSession() {

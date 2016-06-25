@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>Guess Melody</title>
     <meta charset="UTF-8">
-    <title></title>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
@@ -58,50 +58,83 @@
         opacity: 0.8;
         }
 
+        .btn-space {
+        margin-bottom: 15%;
+        }
+
         .infoText {
         font-size: 200%;
         }
     </style>
 
-    function startPlay()
-    {
     <script language="JavaScript">
-        function startPlay()
-            {
+
+        function startPlay() {
+            var oAudio = document.getElementById('player');
+            oAudio.play()
+            $("#play-song").addClass("disabled")
+        }
+
+        function checkAnswer(answer) {
+            $("button").addClass("disabled")
+
+            $.get( "check-answer?chosen_song=" + $("#" + answer).html(), function( data ) {
+                $( "#" + answer ).removeClass("btn-primary");
+                if(data.right == true) {
+                    $( "#" + answer ).addClass("btn-success");
+                } else {
+                    $( "#" + answer ).addClass("btn-danger");
+                }
+                $("#next-song").removeClass("disabled")
+            });
+        }
+
+        function nextSong() {
+            $("#play-song").addClass("disabled")
+            document.getElementById('player').pause()
+
+            $.get( "get-songs", function( data ) {
                 var oAudio = document.getElementById('player');
-                oAudio.play()
-            }
+                for(var i = 1; i < 6; i++) {
+                    $( "#" + i ).html(data.songs[i - 1]);
+                }
+                oAudio.src = data.url
+            });
+
+            $("button").removeClass("btn-success btn-danger disabled")
+            $("#next-song").addClass("disabled")
+            $( "button" ).addClass("btn-primary");
+        }
+
     </script>
 </head>
-<body onload="resizeGame()">
-<audio src="asd" id="player"></audio>
+<body onload="nextSong()">
+<audio id="player"></audio>
 <div class="container">
     <div class="main">
-        <form method="post" action="result/">
-            <div class="choose_track col-md-5 col-md-offset-1 col-lg-5 col-lg-offset-1">
-                <button class="songSelector" value="1" name="button" id="1">
-                    1
-                </button>
-                <button class="songSelector" value="2" name="button" id="2">
-                    2
-                </button>
-                <button class="songSelector" value="3" name="button" id="3">
-                    3
-                </button>
-                <button class="songSelector" value="4" name="button" id="4">
-                    4
-                </button>
-                <button class="songSelector" value="5" name="button" id="5">
-                    5
-                </button>
-
-            </div>
-        </form>
+        <div class="choose_track col-md-5 col-md-offset-1 col-lg-5 col-lg-offset-1 btn-toolbar">
+            <button class="btn-space btn btn-primary btn-block" value="1" name="button" id="1" onclick="checkAnswer(1)">
+                1
+            </button>
+            <button class="btn-space btn btn-primary btn-block" value="2" name="button" id="2" onclick="checkAnswer(2)">
+                2
+            </button>
+            <button class="btn btn-primary btn-block btn-space" value="3" name="button" id="3" onclick="checkAnswer(3)">
+                3
+            </button>
+            <button class="btn btn-primary btn-block btn-space" value="4" name="button" id="4" onclick="checkAnswer(4)">
+                4
+            </button>
+            <button class="btn btn-primary btn-block btn-space" value="5" name="button" id="5" onclick="checkAnswer(5)">
+                5
+            </button>
+        </div>
         <div class="right_window col-md-4 col-md-offset-2 col-lg-4 col-lg-offset-2">
-            <form name="test" method="get" action="/guessMelody/game_begin">
-                <button class="changeArtist">Go back to choosing the artist</button>
+            <form name="test" method="get" action="/index">
+                <button class="btn btn-primary btn-block btn-space ">Go back to choosing the artist</button>
             </form>
-            <button onclick="startPlay()" class="beginGame">Next song</button>
+            <button onclick="nextSong()" class="btn btn-primary btn-block btn-space disabled" id="next-song">Next song</button>
+            <button onclick="startPlay()" class="btn btn-primary btn-block btn-space " id="play-song">Play</button>
         </div>
     </div>
 </div>

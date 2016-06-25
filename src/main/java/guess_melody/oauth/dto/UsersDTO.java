@@ -6,7 +6,6 @@ import java.util.List;
 import ru.hh.nab.jersey.JsonModel;
 
 @JsonModel
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class UsersDTO {
     @JsonProperty("response")
     List<UserInfoDTO> userInfoDTOs;

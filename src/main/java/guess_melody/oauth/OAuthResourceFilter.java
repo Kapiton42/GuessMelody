@@ -19,7 +19,7 @@ public class OAuthResourceFilter implements ResourceFilter {
   private Provider<AuthService> authServiceProvider;
 
   @Inject
-  private OAuthServiceApi serviceApi;
+  private VkServiceApi serviceApi;
 
   @Inject
   public OAuthResourceFilter() {

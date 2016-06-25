@@ -2,7 +2,7 @@ package guess_melody.oauth.authenticate;
 
 import com.github.scribejava.core.exceptions.OAuthException;
 import com.github.scribejava.core.model.OAuth2AccessToken;
-import guess_melody.oauth.OAuthServiceApi;
+import guess_melody.oauth.VkServiceApi;
 import guess_melody.oauth.UserService;
 import guess_melody.oauth.dto.UserInfoDTO;
 import javax.inject.Inject;
@@ -12,7 +12,7 @@ public class AuthService {
   private UserService service;
 
   @Inject
-  private OAuthServiceApi serviceApi;
+  private VkServiceApi serviceApi;
 
   @Inject
   private UserSession session;
@@ -39,6 +39,7 @@ public class AuthService {
       service.loginUser(id, jsonObject.getFirstName(), jsonObject.getLastName());
       session.setId(id);
       session.setState(null);
+      session.setAccessToken(accessToken);
     }
   }
 

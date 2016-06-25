@@ -10,21 +10,26 @@ import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 import guess_melody.oauth.dto.UserInfoDTO;
 import guess_melody.oauth.dto.UsersDTO;
+import guess_melody.oauth.dto.VkAudiosResponseDTO;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
-public class OAuthServiceApi {
+public class VkServiceApi {
 
   private OAuth20Service service = new ServiceBuilder()
           .apiKey("5002607")
           .apiSecret("pniHP2LZuo0BtAlGIPjf")
           .callback("http://localhost:9010/redirect")
           .grantType("authorization_code")
+          .scope("audio")
           .debug()
           .build(VkontakteApi.instance());
 
-  public OAuthServiceApi() {
+  public VkServiceApi() {
   }
 
   public String getAuthUrl(String state) {
@@ -41,8 +46,17 @@ public class OAuthServiceApi {
     Response response = getResponse(accessToken, Verb.GET, "https://api.vk.com/method/users.get?params[name_case]=Nom&params[v]=5.52");
 
     ObjectMapper mapper = new ObjectMapper();
-    System.out.println(response.getBody());
     return mapper.readValue(response.getBody(), UsersDTO.class).getUserInfoDTOs().get(0);
+  }
+
+  public String getSongUrl(String accessToken, String searchString) throws IOException {
+    Response response = getResponse(accessToken, Verb.GET,
+            String.format("https://api.vk.com/method/audio.search?q=%s&v=5.52&access_token=%s", searchString, accessToken).replace(" ", "%20"));
+
+    ObjectMapper mapper = new ObjectMapper();
+    System.out.println(String.format("https://api.vk.com/method/audio.search?q=%s&v=5.52&access_token=%s", searchString, accessToken));
+    System.out.println(response.getBody());
+    return mapper.readValue(response.getBody(), VkAudiosResponseDTO.class).getResponseAllSongsDTO().getItemDTO().get(0).getUrl();
   }
 
   private Response getResponse(String accessToken, Verb method, String apiUrl) {

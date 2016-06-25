@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Bootstrap 101 Шаблон</title>
-    <!-- Bootstrap -->
+    <title>Guess Melody</title>
+    <meta charset="UTF-8">
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
@@ -31,14 +31,25 @@
         margin-top: 140px;
         }
     </style>
+    <script language="JavaScript">
+        function checkArtist(answer) {
+            $.get( "check-artist?artist=" + $("#artist_name").val(), function( data ) {
+                if(data.right == true) {
+                    document.location.href = "http://localhost:9010/game?artist=" + data.artist;
+                } else {
+                    $("#info_text").html("У выбранного артиста слишком мало песен или его не сущетсвует.Пожайлуста, выберите другого исполнителя.")
+                }
+            });
+        }
+
+    </script>
 </head>
 <body>
 <div class="row">
     <div class="col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4">
-        <form class="form" name="test" method="post" action="get_artist/">
-            <p class="infoText">Please, enter the artist name</p>
-            <input name="artist">
-        </form>
+            <p class="infoText" id="info_text">Пожайлуста, введите имя артиста</p>
+            <input name="artist" id="artist_name">
+            <button onclick="checkArtist()" class="btn btn-primary btn-block btn-space " id="beginGame">Начать игру</button>
     </div>
 </div>
 </body>
